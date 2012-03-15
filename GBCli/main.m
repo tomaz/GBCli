@@ -35,6 +35,7 @@ int main(int argc, char * argv[]) {
 		// Initialize settings stack.
 		GBSettings *factoryDefaults = [GBSettings mySettingsWithName:@"Factory" parent:nil];
 		GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:factoryDefaults];
+		[factoryDefaults applyFactoryDefaults];
 		
 		// Initialize command line parser.
 		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
@@ -74,6 +75,8 @@ int main(int argc, char * argv[]) {
 		}];
 		if (!commandLineValid) return 1;
 		
+		// NOTE: from here on, you can forget about GBOptionsHelper or GBCommandLineParser and only deal with GBSettings...
+		
 		// Print help or version if instructed - print help if there's no cmd line argument also...
 		if (settings.printHelp || argc == 1) {
 			[options printHelp];
@@ -84,9 +87,10 @@ int main(int argc, char * argv[]) {
 			return 0;
 		}		
 		
-		// Apply factory defaults and print settings if necessary.
-		[factoryDefaults applyFactoryDefaults];
-		if (settings.printSettings) [options printValuesFromSettings:settings];
+		// Print settings if necessary.
+		if (settings.printSettings) {
+			[options printValuesFromSettings:settings];
+		}
 	}
     return 0;
 }
