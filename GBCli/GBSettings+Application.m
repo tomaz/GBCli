@@ -15,6 +15,7 @@
 + (id)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent {
 	id result = [self settingsWithName:name parent:parent];
 	if (result) {
+		[result registerArrayForKey:@"input"];
 		[result registerArrayForKey:@"output"];
 	}
 	return result;
@@ -33,6 +34,8 @@ GB_SYNTHESIZE_OBJECT(NSArray *, outputPaths, setOutputPaths, @"output")
 #pragma mark - Debugging aid
 
 GB_SYNTHESIZE_BOOL(printSettings, setPrintSettings, @"print-settings")
+GB_SYNTHESIZE_BOOL(printVersion, setPrintVersion, @"version")
+GB_SYNTHESIZE_BOOL(printHelp, setPrintHelp, @"help")
 
 @end
 
