@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		73484A011511FD010031EF85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73484A001511FD010031EF85 /* Foundation.framework */; };
 		73484A041511FD010031EF85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A031511FD010031EF85 /* main.m */; };
-		73484A081511FD010031EF85 /* GBCli.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 73484A071511FD010031EF85 /* GBCli.1 */; };
+		73484A1B1511FDA90031EF85 /* GBCommandLineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A161511FDA90031EF85 /* GBCommandLineParser.m */; };
+		73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A181511FDA90031EF85 /* GBOptionsHelper.m */; };
+		73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1A1511FDA90031EF85 /* GBSettings.m */; };
+		73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +22,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				73484A081511FD010031EF85 /* GBCli.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -29,8 +31,15 @@
 		734849FC1511FD010031EF85 /* GBCli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GBCli; sourceTree = BUILT_PRODUCTS_DIR; };
 		73484A001511FD010031EF85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		73484A031511FD010031EF85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		73484A061511FD010031EF85 /* GBCli-Prefix.pch */ = {isa = PBXFileReference; path = "GBCli-Prefix.pch"; sourceTree = "<group>"; };
-		73484A071511FD010031EF85 /* GBCli.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GBCli.1; sourceTree = "<group>"; };
+		73484A061511FD010031EF85 /* GBCli-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBCli-Prefix.pch"; sourceTree = "<group>"; };
+		73484A151511FDA90031EF85 /* GBCommandLineParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBCommandLineParser.h; sourceTree = "<group>"; };
+		73484A161511FDA90031EF85 /* GBCommandLineParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBCommandLineParser.m; sourceTree = "<group>"; };
+		73484A171511FDA90031EF85 /* GBOptionsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBOptionsHelper.h; sourceTree = "<group>"; };
+		73484A181511FDA90031EF85 /* GBOptionsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBOptionsHelper.m; sourceTree = "<group>"; };
+		73484A191511FDA90031EF85 /* GBSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSettings.h; sourceTree = "<group>"; };
+		73484A1A1511FDA90031EF85 /* GBSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSettings.m; sourceTree = "<group>"; };
+		73484A1E1511FE9E0031EF85 /* GBSettings+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GBSettings+Application.h"; sourceTree = "<group>"; };
+		73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GBSettings+Application.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,9 +82,8 @@
 		73484A021511FD010031EF85 /* GBCli */ = {
 			isa = PBXGroup;
 			children = (
-				73484A031511FD010031EF85 /* main.m */,
-				73484A071511FD010031EF85 /* GBCli.1 */,
-				73484A051511FD010031EF85 /* Supporting Files */,
+				73484A141511FD8B0031EF85 /* lib */,
+				73484A121511FD7F0031EF85 /* example */,
 			);
 			path = GBCli;
 			sourceTree = "<group>";
@@ -86,6 +94,31 @@
 				73484A061511FD010031EF85 /* GBCli-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		73484A121511FD7F0031EF85 /* example */ = {
+			isa = PBXGroup;
+			children = (
+				73484A031511FD010031EF85 /* main.m */,
+				73484A1E1511FE9E0031EF85 /* GBSettings+Application.h */,
+				73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */,
+				73484A051511FD010031EF85 /* Supporting Files */,
+			);
+			name = example;
+			sourceTree = "<group>";
+		};
+		73484A141511FD8B0031EF85 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				73484A151511FDA90031EF85 /* GBCommandLineParser.h */,
+				73484A161511FDA90031EF85 /* GBCommandLineParser.m */,
+				73484A171511FDA90031EF85 /* GBOptionsHelper.h */,
+				73484A181511FDA90031EF85 /* GBOptionsHelper.m */,
+				73484A191511FDA90031EF85 /* GBSettings.h */,
+				73484A1A1511FDA90031EF85 /* GBSettings.m */,
+			);
+			name = lib;
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +172,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				73484A041511FD010031EF85 /* main.m in Sources */,
+				73484A1B1511FDA90031EF85 /* GBCommandLineParser.m in Sources */,
+				73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */,
+				73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */,
+				73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +266,7 @@
 				73484A0D1511FD010031EF85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
