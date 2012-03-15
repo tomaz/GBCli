@@ -15,27 +15,27 @@
 + (id)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent {
 	id result = [self settingsWithName:name parent:parent];
 	if (result) {
-		[result registerArrayForKey:@"input"];
-		[result registerArrayForKey:@"output"];
+		[result registerArrayForKey:GBSettingKeys.inputPaths];
+		[result registerArrayForKey:GBSettingKeys.outputPaths];
 	}
 	return result;
 }
 
 #pragma mark - Project information
 
-GB_SYNTHESIZE_COPY(NSString *, projectName, setProjectName, @"project-name")
-GB_SYNTHESIZE_COPY(NSString *, projectVersion, setProjectVersion, @"project-version")
+GB_SYNTHESIZE_COPY(NSString *, projectName, setProjectName, GBSettingKeys.projectName)
+GB_SYNTHESIZE_COPY(NSString *, projectVersion, setProjectVersion, GBSettingKeys.projectVersion)
 
 #pragma mark - Paths
 
-GB_SYNTHESIZE_OBJECT(NSArray *, inputPaths, setInputPaths, @"input")
-GB_SYNTHESIZE_OBJECT(NSArray *, outputPaths, setOutputPaths, @"output")
+GB_SYNTHESIZE_OBJECT(NSArray *, inputPaths, setInputPaths, GBSettingKeys.inputPaths)
+GB_SYNTHESIZE_OBJECT(NSArray *, outputPaths, setOutputPaths, GBSettingKeys.outputPaths)
 
 #pragma mark - Debugging aid
 
-GB_SYNTHESIZE_BOOL(printSettings, setPrintSettings, @"print-settings")
-GB_SYNTHESIZE_BOOL(printVersion, setPrintVersion, @"version")
-GB_SYNTHESIZE_BOOL(printHelp, setPrintHelp, @"help")
+GB_SYNTHESIZE_BOOL(printSettings, setPrintSettings, GBSettingKeys.printSettings)
+GB_SYNTHESIZE_BOOL(printVersion, setPrintVersion, GBSettingKeys.printVersion)
+GB_SYNTHESIZE_BOOL(printHelp, setPrintHelp, GBSettingKeys.printHelp)
 
 @end
 
@@ -49,3 +49,15 @@ GB_SYNTHESIZE_BOOL(printHelp, setPrintHelp, @"help")
 }
 
 @end
+
+#pragma mark - 
+
+const struct GBSettingKeys GBSettingKeys = {
+	.projectName = @"project-name",
+	.projectVersion = @"project-version",
+	.inputPaths = @"input",
+	.outputPaths = @"output",
+	.printSettings = @"print-settings",
+	.printVersion = @"version",
+	.printHelp = @"help",
+};

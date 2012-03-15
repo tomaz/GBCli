@@ -49,3 +49,19 @@
 - (void)applyFactoryDefaults;
 
 @end
+
+#pragma mark - 
+
+/** Defines all the keys so we can access them programmatically and still have compiler check our typos.
+ 
+ Instead of using namespaced constants, you can also use `const NSString *` declarations, but I prefer this way - it's faster with code sense...
+ */
+extern const struct GBSettingKeys {
+	__unsafe_unretained NSString *projectName;
+	__unsafe_unretained NSString *projectVersion;
+	__unsafe_unretained NSString *inputPaths;
+	__unsafe_unretained NSString *outputPaths;
+	__unsafe_unretained NSString *printSettings;
+	__unsafe_unretained NSString *printVersion;
+	__unsafe_unretained NSString *printHelp;
+} GBSettingKeys;
