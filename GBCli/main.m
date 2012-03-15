@@ -10,6 +10,10 @@
 #import "GBCommandLineParser.h"
 #import "GBOptionsHelper.h"
 
+/** Definitions of all options.
+ 
+ Using static array results in cleanest code, but we can't use our namespaced constants from GBSettingKeys struct. Instead, we could register all settings via GBOptionsHelper registration methods; it would be a bit more verbose, but we could use constants... Chose whatever method suits you best.
+ */
 GBOptionDefinition GBOptionDefinitions[] = {
 	{ 0,	nil,					@"PROJECT INFO",											GBOptionSeparator|GBOptionNoCmdLine },
 	{ 'p',	@"project-name",		@"Project name",											GBValueRequired },
@@ -53,11 +57,11 @@ int main(int argc, char * argv[]) {
 		[parser parseOptionsWithArguments:argv count:argc block:^(GBParseFlags flags, NSString *option, id value, BOOL *stop) {
 			switch (flags) {
 				case GBParseFlagUnknownOption:
-					printf("Unknown command line option %s!\n", option.UTF8String);
+					printf("Unknown command line option %s, try --help!\n", option.UTF8String);
 					commandLineValid = NO;
 					break;
 				case GBParseFlagMissingValue:
-					printf("Missing value for command line option %s!\n", option.UTF8String);
+					printf("Missing value for command line option %s, try --help!\n", option.UTF8String);
 					commandLineValid = NO;
 					break;
 				case GBParseFlagArgument:
@@ -70,15 +74,15 @@ int main(int argc, char * argv[]) {
 		}];
 		if (!commandLineValid) return 1;
 		
-		// Print version or help if instructed.
+		// Print help or version if instructed - print help if there's no cmd line argument also...
+		if (settings.printHelp || argc == 1) {
+			[options printHelp];
+			return 0;
+		}
 		if (settings.printVersion) {
 			[options printHelp];
 			return 0;
 		}		
-		if (settings.printHelp) {
-			[options printHelp];
-			return 0;
-		}
 		
 		// Apply factory defaults and print settings if necessary.
 		[factoryDefaults applyFactoryDefaults];
