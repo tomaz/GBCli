@@ -181,7 +181,7 @@ const struct GBCommandLineKeys {
 		if (stop) return NO;
 		
 		// Remember parsed option and continue with next one.
-		[self.parsedOptions setObject:value forKey:name];
+		if (value) [self.parsedOptions setObject:value forKey:name];
 		index++;
 	}
 	
