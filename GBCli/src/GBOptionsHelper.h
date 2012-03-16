@@ -146,7 +146,7 @@ typedef NSString *(^GBOptionStringBlock)(void);
 /** Various option flags. You can also use GBValueRequirement values here! */
 enum {
 	GBOptionSeparator = 1 << 3, ///< Option is separator, not real option definition.
-	GBOptionNoCmdLine = 1 << 4, ///< Option is only used by global or project settings, not on command line.
+	GBOptionNoCmdLine = 1 << 4, ///< Option is not used on command line, don't register to parser.
 	GBOptionNoPrint = 1 << 5, ///< Option should be excluded from print settings display.
 	GBOptionNoHelp = 1 << 6, ///< Option should be excluded from help display.
 	GBOptionInvisible = GBOptionNoPrint | GBOptionNoHelp,

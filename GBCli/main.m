@@ -10,25 +10,24 @@
 #import "GBCommandLineParser.h"
 #import "GBOptionsHelper.h"
 
-/** Definitions of all options.
- 
- Using static array results in cleanest code, but we can't use our namespaced constants from GBSettingKeys struct. Instead, we could register all settings via GBOptionsHelper registration methods; it would be a bit more verbose, but we could use constants... Chose whatever method suits you best.
- */
-GBOptionDefinition GBOptionDefinitions[] = {
-	{ 0,	nil,					@"PROJECT INFO",											GBOptionSeparator|GBOptionNoCmdLine },
-	{ 'p',	@"project-name",		@"Project name",											GBValueRequired },
-	{ 'v',	@"project-version",		@"Project version",											GBValueRequired },
-	
-	{ 0,	nil,					@"PATHS",													GBOptionSeparator|GBOptionNoCmdLine },
-	{ 'o',	@"output",				@"Output path, repeat for multiple paths",					GBValueRequired },	
-	
-	{ 0,	nil,					@"MISCELLANEOUS",											GBOptionSeparator|GBOptionNoCmdLine },
-	{ 0,	@"print-settings",		@"Print settings for current run",							GBValueNone },
-	{ 'v',	@"version",				@"Display version and exit",								GBValueNone|GBOptionNoPrint },
-	{ '?',	@"help",				@"Display this help and exit",								GBValueNone|GBOptionNoPrint },
-	
-	{ 0, nil, nil, 0 }
-};
+void registerOptions(GBOptionsHelper *options) {
+	GBOptionDefinition definitions[] = {
+		{ 0,	nil,							@"PROJECT INFO",											GBOptionSeparator },
+		{ 'p',	GBSettingKeys.projectName,		@"Project name",											GBValueRequired },
+		{ 'v',	GBSettingKeys.projectVersion,	@"Project version",											GBValueRequired },
+		
+		{ 0,	nil,							@"PATHS",													GBOptionSeparator },
+		{ 'o',	GBSettingKeys.outputPaths,		@"Output path, repeat for multiple paths",					GBValueRequired },	
+		
+		{ 0,	nil,							@"MISCELLANEOUS",											GBOptionSeparator },
+		{ 0,	GBSettingKeys.printSettings,	@"Print settings for current run",							GBValueNone },
+		{ 'v',	GBSettingKeys.printVersion,		@"Display version and exit",								GBValueNone|GBOptionNoPrint },
+		{ '?',	GBSettingKeys.printHelp,		@"Display this help and exit",								GBValueNone|GBOptionNoPrint },
+		
+		{ 0, nil, nil, 0 }
+	};
+	[options registerOptionsFromDefinitions:definitions];
+}
 
 int main(int argc, char * argv[]) {
 	@autoreleasepool {
@@ -36,9 +35,6 @@ int main(int argc, char * argv[]) {
 		GBSettings *factoryDefaults = [GBSettings mySettingsWithName:@"Factory" parent:nil];
 		GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:factoryDefaults];
 		[factoryDefaults applyFactoryDefaults];
-		
-		// Initialize command line parser.
-		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
 		
 		// Initialize options helper class and prepare injection strings.
 		GBOptionsHelper *options = [[GBOptionsHelper alloc] init];		
@@ -49,10 +45,11 @@ int main(int argc, char * argv[]) {
 		options.printValuesOptionsHeader = ^{ return @"Running with options:\n"; };
 		options.printValuesFooter = ^{ return @"\nEnd of values print...\n"; };
 		options.printHelpHeader = ^{ return @"Usage %APPNAME [OPTIONS] <arguments separated by space>"; };
-		options.printHelpFooter = ^{ return @"\nSwitches that don't accept value can use negative form with --no-<name> prefix."; };
+		options.printHelpFooter = ^{ return @"\nSwitches that don't accept value can use negative form with --no-<name> or --<name>=0 prefix."; };
+		registerOptions(options);
 		
-		// Register options and pass them to command line parser.
-		[options registerOptionsFromDefinitions:GBOptionDefinitions];
+		// Initialize command line parser and register it with all options from helper. Then parse command line.
+		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];		
 		[options registerOptionsToCommandLineParser:parser];
 		__block BOOL commandLineValid = YES;
 		[parser parseOptionsWithArguments:argv count:argc block:^(GBParseFlags flags, NSString *option, id value, BOOL *stop) {
