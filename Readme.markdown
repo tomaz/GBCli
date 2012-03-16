@@ -416,6 +416,11 @@ As blocks are only invoked if needed, you can safely add computationally intensi
 Allright, this tutorial is over, check example application included with Xcode project to see it in a more real-life situation.
 
 
+Contribution notes
+------------------
+
+Want to contribute to the project? You're warmly welcome - forking the project on GitHub and creating pull request with your changes is the way to go! Although I will *probably* accept changes via email, pull requests make it much easier and hassle free! And they preserve the author. Oh, please make sure your changes to the source code match the coding style in order to maintain readability.
+
 
 License
 -------

@@ -114,7 +114,7 @@
 	__weak GBOptionsHelper *blockSelf = self;
 	
 	// First add header row. Note that first element is the setting.
-	NSMutableArray *headers = [NSMutableArray arrayWithObject:@"Setting"];
+	NSMutableArray *headers = [NSMutableArray arrayWithObject:@"Option"];
 	[lengths addObject:[NSNumber numberWithUnsignedInteger:[headers.lastObject length]]];
 	[settings enumerateSettings:^(GBSettings *settings, BOOL *stop) {
 		[headers addObject:settings.name];
