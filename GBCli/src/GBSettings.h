@@ -43,6 +43,11 @@
 + (id)settingsWithName:(NSString *)name parent:(GBSettings *)parent;
 - (id)initWithName:(NSString *)name parent:(GBSettings *)parent;
 
+#pragma mark - Settings serialization support
+
+- (BOOL)loadSettingsFromPlist:(NSString *)path error:(NSError **)error;
+- (BOOL)saveSettingsToPlist:(NSString *)path error:(NSError **)error;
+
 #pragma mark - Optional registration helpers
 
 - (void)registerArrayForKey:(NSString *)key;

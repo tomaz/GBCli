@@ -1,4 +1,4 @@
-//
+
 //  GBSettings.m
 //  GBCli
 //
@@ -42,6 +42,34 @@
 		self.storage = [NSMutableDictionary dictionary];
 	}
 	return self;
+}
+
+#pragma mark - Settings serialization support
+
+- (BOOL)loadSettingsFromPlist:(NSString *)path error:(NSError **)error {
+	NSFileManager *manager = [NSFileManager defaultManager];
+	if (![manager fileExistsAtPath:path]) return YES;
+	
+	// Load data into dictionary.
+	NSData* data = [NSData dataWithContentsOfFile:path options:0 error:error];
+	if (!data) return NO;
+	NSDictionary *values = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:NULL error:error];
+	if (!values) return NO;
+	
+	// Copy all values to ourself. Remove - or -- prefix which can optionally be used in the file!
+	[self.storage removeAllObjects];
+	[values enumerateKeysAndObjectsUsingBlock:^(NSString *key, id result, BOOL *stop) {
+		while ([key hasPrefix:@"-"]) key = [key substringFromIndex:1];
+		[self setObject:result forKey:key];
+	}];
+	return YES;
+}
+
+- (BOOL)saveSettingsToPlist:(NSString *)path error:(NSError **)error {
+	// Note that we only save settings from current level!
+	NSData *data = [NSPropertyListSerialization dataWithPropertyList:self.storage format:NSPropertyListXMLFormat_v1_0 options:0 error:error];
+	if (!data) return NO;
+	return [data writeToFile:path options:NSDataWritingAtomic error:error];
 }
 
 #pragma mark - Optional registration helpers

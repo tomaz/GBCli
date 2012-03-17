@@ -33,8 +33,10 @@ int main(int argc, char * argv[]) {
 	@autoreleasepool {
 		// Initialize settings stack.
 		GBSettings *factoryDefaults = [GBSettings mySettingsWithName:@"Factory" parent:nil];
-		GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:factoryDefaults];
+		GBSettings *fileSettings = [GBSettings mySettingsWithName:@"File" parent:factoryDefaults];
+		GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:fileSettings];
 		[factoryDefaults applyFactoryDefaults];
+		[fileSettings loadSettingsFromPlist:[@"~/Downloads/mysettings.plist" stringByStandardizingPath] error:nil];
 		
 		// Initialize options helper class and prepare injection strings.
 		GBOptionsHelper *options = [[GBOptionsHelper alloc] init];		
