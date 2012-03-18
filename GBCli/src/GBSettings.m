@@ -48,7 +48,7 @@
 
 - (BOOL)loadSettingsFromPlist:(NSString *)path error:(NSError **)error {
 	NSFileManager *manager = [NSFileManager defaultManager];
-	if (![manager fileExistsAtPath:path]) return YES;
+	if (![manager fileExistsAtPath:path]) return NO;
 	
 	// Load data into dictionary.
 	NSData* data = [NSData dataWithContentsOfFile:path options:0 error:error];
