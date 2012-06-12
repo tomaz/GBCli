@@ -9,7 +9,7 @@ This file serves as tutorial demonstrating what you can do with the library.
 
 
 Parsing command line arguments
------------------------------
+------------------------------
 The most basic building block of the library is parsing command line arguments. This is implemented with *GBCommandLineParser* class. Using it is similar to how DDCli was used: register all options and have it parse command line. Based on registered data, the class determines whether command line is valid or not. But that alone wouldn't be that usefult, so the class also offers interface for getting the actual options and argument values. You can use callback API to be notified about each option. This is similar to how DDCli was implemented, except a block API is used instead of KVO. This results in more streamlined code IMHO.
 
 Besided callback API, parser also stores all encountered option and arguments internally, so you can access them after parsing is complete. This can solve the problem with storing values, although it only provides KVC style interface which may result in verbose code.
