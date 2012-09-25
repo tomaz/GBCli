@@ -93,8 +93,9 @@ const struct GBCommandLineKeys {
 
 - (BOOL)parseOptionsUsingDefaultArgumentsWithBlock:(GBCommandLineParseBlock)handler {
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];
-    NSArray *arguments = [processInfo arguments];
     NSString *command = [processInfo processName];
+    NSMutableArray *arguments = [[processInfo arguments] mutableCopy];
+	[arguments removeObjectAtIndex:0];
 	return [self parseOptionsWithArguments:arguments commandLine:command block:handler];
 }
 
