@@ -16,7 +16,7 @@ Besided callback API, parser also stores all encountered option and arguments in
 
 The code looks like this:
 
-```
+```Objective-C
 int main(int argc, char **argv) {
 	// Create parser and register all options.
 	GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
@@ -75,7 +75,7 @@ In most cases, you'd like to store values from command line into a simple to use
 
 But it doesn't stop there - in most cases, you'd like to have several levels of settings: for example factory defaults and command line. In more complex tools, there might be additional levels in between: for example appledoc can also read settings from global or project files. And options should take precedense, so for example value provided in command line overrides factory defaults. *GBSettings* make this very simple - here's how you could extent previous example:
 
-```
+```Objective-C
 int main(int argc, char **argv) {
 	// Create settings stack.
 	GBSettings *factoryDefaults = [GBSettings settingsWithName:@"Factory" parent:nil];
@@ -120,7 +120,7 @@ In this example, we've setup factory defaults / cmd line hierarchy. For any opti
 
 **Note:** In case you're wondering - you don't have to use settings hierarcy if you don't need it! Above example would work just as same using a single *GBSettings* object. Just make sure you apply the settings in the correct order and new values will override existing ones as expected. The main reason for designing levels is to be able to print values on a per-level basis, similar to how Xcode build settings view does. But I'm ahead of myself, read more of this later on. Here’s above example simplified just for completeness sake:
 
-```
+```Objective-C
 int main(int argc, char **argv) {
 	// Create settings.
 	GBSettings *settings = [GBSettings settingsWithName:@"CmdLine" parent:factoryDefaults];
@@ -138,8 +138,10 @@ Sometimes, you'd like to allow the user repeat an option several times and you'd
 
 `GBSettings` can automate this for you - all you need to do is to register an option as an array like this:
 
+```Objective-C
 	[factorySettings registerArrayForKey:@"output"]
 	[settings registerArrayForKey:@"output"]
+```
 
 In this case, `[settings objectForKey:@"output"]` will return an `NSArray` containing all values. If there was no value, `nil` would be returned, if there was single value, an array with single item would be returned. Furthermore - the resulting array would contain all values, accumulated through the whole settings stack - including all parents!
 
@@ -154,7 +156,7 @@ While using *GBSettings* out of the box via KVC interface may be sufficient for 
 
 One way would be overriding `GBSettings` class, but Objective C provides (IMHO) better solution for that - categories. Here's how it may look one for above example:
 
-```
+```Objective-C
 @interface GBSettings (MyAppSettings)
 @property (nonatomic, assign) NSInteger optiona;
 @property (nonatomic, assign) NSInteger optionb;
@@ -164,7 +166,7 @@ One way would be overriding `GBSettings` class, but Objective C provides (IMHO) 
 
 Now we need to somehow "map" properties with specific keys. Let's see how it would look like:
 
-```
+```Objective-C
 @implementation GBSettings (MyAppSettings)
 
 - (NSInteger)optiona {
@@ -182,7 +184,7 @@ Now we need to somehow "map" properties with specific keys. Let's see how it wou
 
 Straightforward, but kind of verbose and tedious, especially with more complex tools. But there's another way - at the end of *GBSettings.h* file, there are a bunch of convenience macros that allow you synthesize your properties via a single line like this:
 
-```
+```Objective-C
 @implementation GBSettings (MyAppSettings)
 
 GB_SYNTHESIZE_INT(optiona, setOptiona, @"optiona")
@@ -198,7 +200,7 @@ There's a macro for each supported value type - `GB_SYNTHESIZE_BOOL` for `BOOL`,
 
 Another thing you can easily stuff to your category is registration of array keys. I tend to create a new initializer method for this to keep the rest of the code as simple as possible:
 
-```
+```Objective-C
 @implementation GBSettings (MyAppSettings)
 
 + (id)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent {
@@ -214,7 +216,7 @@ Another thing you can easily stuff to your category is registration of array key
 
 Then you can initialize your settings stack using the custom initializer instead of `settingsWithName:parent:` like this:
 
-```
+```Objective-C
 GBSettings *factoryDefaults = [GBSettings mySettingsWithName:@"Factory" parent:nil];
 GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:factoryDefaults];
 ```
@@ -225,7 +227,7 @@ Of course, if you'd chose subclassing over category, you could simply override d
 
 Your category or subclass would also be a great place for embedding other behavior such as applying factory defaults:
 
-```
+```Objective-C
 @implementation GBSettings (MyAppSettings)
 
 - (void)applyFactoryDefaults {
@@ -249,7 +251,7 @@ I chose to implement some of the most tedious ones with *GBOptionsHelper* class.
 
 It's not that much different from before:
 
-```
+```Objective-C
 int main(int argc, char **argv) {
 	// Create settings stack.
 	GBSettings *factoryDefaults = [GBSettings settingsWithName:@"Factory" parent:nil];
@@ -299,7 +301,7 @@ You probably also noticed registration took additional information such as descr
 
 It's nice to include some form of help with command line tool. For example if user supplies `--help`, `-h`, `-?` on command line or simply types command without any arguments. It's expected command line behavior afterall. If using `GBOptionsHelper`, all that's required from your part is register help option and ask the class to print help if needed. Let's first see how you can do registration part:
 
-```
+```Objective-C
 int main(int argc, char **argv) {
 	initialize settings stack as before
 	...
@@ -342,7 +344,7 @@ MISCELLANEOUS
 Another nice debugging aid is ability to print out the values that are used by current run. Assuming there's command line switch to enable or disable this, here's how you could do it:
 
 
-```
+```Objective-C
 int main(int argc, char **argv) {
 	initialize settings stack as before
 	GBSettings *factoryDefaults = ...
@@ -395,7 +397,7 @@ By default all options are included, but you add flags to registration methods t
 
 You can also customize output through several hooks which are called when appropriate. You could easily add your headers and footers this way without subclassing. Furthermore, you could use several placeholder strings which will be replaced by their appropriate values: `%APPNAME`, `%APPVERSION`, `%APPBUILD`. While getting the application name requires no effort from your side - the tool will pick it up from the command line, you have to provide version and build information. Here's how you could do that:
 
-```
+```Objective-C
 GBOptionsHelper *options = [[GBOptionsHelper alloc] init];
 options.applicationName = ^{ return @"mytool"; }; // optional, this is picked up automatically if not given
 options.applicationVersion = ^{ return @"1.0"; };
@@ -404,7 +406,7 @@ options.applicationBuild = ^{ return @"100"; };
 
 And here's how you add your own custom header to help output:
 
-```
+```Objective-C
 options.printHelpHeader = ^{ return @"%APPNAME: version %APPVERSION (build %APPBUILD)\n"; };
 ```
 
