@@ -258,7 +258,8 @@ int main(int argc, char **argv) {
 	GBSettings *settings = [GBSettings settingsWithName:@"CmdLine" parent:factoryDefaults];
 	
 	// Create option shelper and register all options.
-	GBOptionsHelper *options = [[GBOptionsHelper alloc] init]	[options registerOption:'a' long:@"optiona" description:@"The great option a" flags:GBValueRequired];
+	GBOptionsHelper *options = [[GBOptionsHelper alloc] init];
+	[options registerOption:'a' long:@"optiona" description:@"The great option a" flags:GBValueRequired];
 	[options registerOption:'b' long:@"optionb" description:@"The great option b" flags:GBValueOptional];
 	[options registerOption:'c' long:@"optionc" description:@"Something else too" flags:GBValueNone];
 	
@@ -302,7 +303,7 @@ It's nice to include some form of help with command line tool. For example if us
 int main(int argc, char **argv) {
 	initialize settings stack as before
 	...
-	GBOptionsHelper *options = [[GBOptionsHelper alloc] init]
+	GBOptionsHelper *options = [[GBOptionsHelper alloc] init];
 	[options registerSeparator:@"OPTION SET1"];
 	[options registerOption:'a' long:@"optiona" description:@"The great option a" flags:GBValueRequired];
 	[options registerOption:'b' long:@"optionb" description:@"The great option b" flags:GBValueOptional];
@@ -347,7 +348,7 @@ int main(int argc, char **argv) {
 	GBSettings *factoryDefaults = ...
 	GBSettings *settings = ...
 	...
-	GBOptionsHelper *options = [[GBOptionsHelper alloc] init]
+	GBOptionsHelper *options = [[GBOptionsHelper alloc] init];
 	[options registerSeparator:@"OPTION SET1"];
 	[options registerOption:'a' long:@"optiona" description:@"The great option a" flags:GBValueRequired];
 	[options registerOption:'b' long:@"optionb" description:@"The great option b" flags:GBValueOptional];
