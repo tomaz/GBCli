@@ -50,6 +50,11 @@ typedef void(^GBCommandLineParseBlock)(GBParseFlags flags, NSString *argument, i
 
 #pragma mark - Options parsing
 
+- (void)registerSettings:(GBSettings *)settings;
+- (BOOL)parseOptionsUsingDefaultArguments;
+- (BOOL)parseOptionsWithArguments:(char **)argv count:(int)argc;
+- (BOOL)parseOptionsWithArguments:(NSArray *)arguments commandLine:(NSString *)cmd;
+
 - (BOOL)parseOptionsUsingDefaultArgumentsWithBlock:(GBCommandLineParseBlock)handler;
 - (BOOL)parseOptionsWithArguments:(char **)argv count:(int)argc block:(GBCommandLineParseBlock)handler;
 - (BOOL)parseOptionsWithArguments:(NSArray *)arguments commandLine:(NSString *)cmd block:(GBCommandLineParseBlock)handler;

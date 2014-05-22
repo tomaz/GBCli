@@ -51,28 +51,10 @@ int main(int argc, char * argv[]) {
 		registerOptions(options);
 		
 		// Initialize command line parser and register it with all options from helper. Then parse command line.
-		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];		
-		[options registerOptionsToCommandLineParser:parser];
-		__block BOOL commandLineValid = YES;
-		[parser parseOptionsWithArguments:argv count:argc block:^(GBParseFlags flags, NSString *option, id value, BOOL *stop) {
-			switch (flags) {
-				case GBParseFlagUnknownOption:
-					printf("Unknown command line option %s, try --help!\n", option.UTF8String);
-					commandLineValid = NO;
-					break;
-				case GBParseFlagMissingValue:
-					printf("Missing value for command line option %s, try --help!\n", option.UTF8String);
-					commandLineValid = NO;
-					break;
-				case GBParseFlagArgument:
-					[settings addArgument:value];
-					break;
-				case GBParseFlagOption:
-					[settings setObject:value forKey:option];
-					break;
-			}
-		}];
-		if (!commandLineValid) return 1;
+		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
+		[parser registerSettings:settings];
+		[parser registerOptions:options];
+		[parser parseOptionsWithArguments:argv count:argc];
 		
 		// NOTE: from here on, you can forget about GBOptionsHelper or GBCommandLineParser and only deal with GBSettings...
 		

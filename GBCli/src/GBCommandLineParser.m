@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Tomaz Kragelj. All rights reserved.
 //
 
-#import <getopt.h>
+#import "GBSettings.h"
 #import "GBCommandLineParser.h"
 
 const struct GBCommandLineKeys {
@@ -26,6 +26,7 @@ const struct GBCommandLineKeys {
 @interface GBCommandLineParser ()
 - (NSDictionary *)optionDataForOption:(NSString *)shortOrLongName value:(NSString **)value;
 - (BOOL)isShortOrLongOptionName:(NSString *)value;
+@property (nonatomic, strong) GBSettings *settings; // optional (only required by simplified parsing methods)
 @property (nonatomic, strong) NSMutableDictionary *parsedOptions;
 @property (nonatomic, strong) NSMutableArray *parsedArguments;
 @property (nonatomic, strong) NSMutableDictionary *registeredOptionsByLongNames;
@@ -89,7 +90,51 @@ const struct GBCommandLineKeys {
 	[self registerSwitch:longOption shortcut:0];
 }
 
-#pragma mark - Options parsing
+#pragma mark - Options parsing - Simple methods with default behavior
+
+- (void)registerSettings:(GBSettings *)settings {
+	self.settings = settings;
+}
+
+- (BOOL)parseOptionsUsingDefaultArguments {
+	[self validateSimplifiedOptionsWithSelector:_cmd];
+	return [self parseOptionsUsingDefaultArgumentsWithBlock:[self simplifiedOptionsParserBlock]];
+}
+
+- (BOOL)parseOptionsWithArguments:(char **)argv count:(int)argc {
+	[self validateSimplifiedOptionsWithSelector:_cmd];
+	return [self parseOptionsWithArguments:argv count:argc block:[self simplifiedOptionsParserBlock]];
+}
+
+- (BOOL)parseOptionsWithArguments:(NSArray *)arguments commandLine:(NSString *)cmd {
+	[self validateSimplifiedOptionsWithSelector:_cmd];
+	return [self parseOptionsWithArguments:arguments commandLine:cmd block:[self simplifiedOptionsParserBlock]];
+}
+
+- (GBCommandLineParseBlock)simplifiedOptionsParserBlock {
+	return ^(GBParseFlags flags, NSString *argument, id value, BOOL *stop) {
+		switch (flags) {
+			case GBParseFlagUnknownOption:
+				printf("Unknown command line option %s, try --help!\n", [argument UTF8String]);
+				break;
+			case GBParseFlagMissingValue:
+				printf("Missing value for command line option %s, try --help!\n", [argument UTF8String]);
+				break;
+			case GBParseFlagArgument:
+				[self.settings addArgument:value];
+				break;
+			case GBParseFlagOption:
+				[self.settings setObject:value forKey:argument];
+				break;
+		}
+	};
+}
+
+- (void)validateSimplifiedOptionsWithSelector:(SEL)sel {
+	NSAssert(self.settings != nil, @"%@ requires you to supply GBSettings instance via registerSettings: method!", NSStringFromSelector(sel));
+}
+
+#pragma mark - Options parsing - Methods with customizations
 
 - (BOOL)parseOptionsUsingDefaultArgumentsWithBlock:(GBCommandLineParseBlock)handler {
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];

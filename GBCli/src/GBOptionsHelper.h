@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GBCommandLineParser.h"
 
 @class GBCommandLineParser;
 @class GBSettings;
@@ -139,6 +140,12 @@ typedef NSString *(^GBOptionStringBlock)(void);
 @property (nonatomic, copy) GBOptionStringBlock printHelpHeader;
 @property (nonatomic, copy) GBOptionStringBlock printHelpFooter;
 
+@end
+
+#pragma mark - 
+
+@interface GBCommandLineParser (GBOptionsHelper)
+- (void)registerOptions:(GBOptionsHelper *)options;
 @end
 
 #pragma mark - 

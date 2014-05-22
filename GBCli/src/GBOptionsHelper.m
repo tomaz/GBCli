@@ -7,7 +7,6 @@
 //
 
 #import "GBSettings.h"
-#import "GBCommandLineParser.h"
 #import "GBOptionsHelper.h"
 
 @interface OptionDefinition : NSObject
@@ -358,6 +357,16 @@
 
 - (BOOL)isHelp:(OptionDefinition *)definition {
 	return ((definition.flags & GBOptionNoHelp) == 0);
+}
+
+@end
+
+#pragma mark - 
+
+@implementation GBCommandLineParser (GBOptionsHelper)
+
+- (void)registerOptions:(GBOptionsHelper *)options {
+	[options registerOptionsToCommandLineParser:self];
 }
 
 @end
