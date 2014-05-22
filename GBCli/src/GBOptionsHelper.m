@@ -323,11 +323,12 @@
 		return;
 	}
 	NSString *string = block();
-	string = [string stringByReplacingOccurrencesOfString:@"%APPNAME" withString:self.applicationNameFromBlockOrDefault];
-  if ( self.applicationVersionFromBlockOrNil )
-    string = [string stringByReplacingOccurrencesOfString:@"%APPVERSION" withString:self.applicationVersionFromBlockOrNil];
-  if ( self.applicationBuildFromBlockOrNil )
-    string = [string stringByReplacingOccurrencesOfString:@"%APPBUILD" withString:self.applicationBuildFromBlockOrNil];
+	if (self.applicationBuildFromBlockOrNil)
+		string = [string stringByReplacingOccurrencesOfString:@"%APPNAME" withString:self.applicationNameFromBlockOrDefault];
+	if (self.applicationVersionFromBlockOrNil)
+		string = [string stringByReplacingOccurrencesOfString:@"%APPVERSION" withString:self.applicationVersionFromBlockOrNil];
+	if (self.applicationBuildFromBlockOrNil)
+		string = [string stringByReplacingOccurrencesOfString:@"%APPBUILD" withString:self.applicationBuildFromBlockOrNil];
 	printf("%s\n", string.UTF8String);
 }
 
