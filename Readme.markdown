@@ -8,6 +8,20 @@ Here's how it happened (skip this part if you're only interested in techical stu
 This file serves as tutorial demonstrating what you can do with the library.
 
 
+Integrating to your project
+---------------------------
+
+The simplest way of integrating GBCli is through cocoapods. Just add this line to your Podfile:
+
+```
+pod "GBCli"
+```
+
+Then import all files so compiler can see them: `#import <GBCli/GBCli.h>`.
+
+If you prefer to include sources directly, just copy all .h and .m files from `GBCli/src` subfolder to your Xcode project and import `GBCli.h` header (in this case you'll probably need to use `#import "GBCli.h"`).
+
+
 Parsing command line arguments
 ------------------------------
 
