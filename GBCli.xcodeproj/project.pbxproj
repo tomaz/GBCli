@@ -28,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7331C3C9192F0BA3003B8363 /* GBCli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBCli.h; sourceTree = "<group>"; };
 		734849FC1511FD010031EF85 /* GBCli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GBCli; sourceTree = BUILT_PRODUCTS_DIR; };
 		73484A001511FD010031EF85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		73484A031511FD010031EF85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		73484A141511FD8B0031EF85 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7331C3C9192F0BA3003B8363 /* GBCli.h */,
 				73484A151511FDA90031EF85 /* GBCommandLineParser.h */,
 				73484A161511FDA90031EF85 /* GBCommandLineParser.m */,
 				73484A171511FDA90031EF85 /* GBOptionsHelper.h */,
