@@ -56,7 +56,7 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 
 #pragma mark - Options registration
 
-- (void)registerOptionGroup:(NSString *)name {
+- (void)beginRegisterOptionGroup:(NSString *)name {
 	self.currentOptionsGroupOptions = self.registeredOptionGroupsByNames[name];
 
 	// Warn if we already have the given group.
@@ -68,6 +68,11 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 	// Create options group data into which we'll be registering options from now on.
 	self.currentOptionsGroupOptions = [NSMutableSet set];
 	self.registeredOptionGroupsByNames[name] = self.currentOptionsGroupOptions;
+}
+
+- (void)endRegisterOptionGroup {
+	self.currentOptionsGroupName = nil;
+	self.currentOptionsGroupOptions = nil;
 }
 
 - (void)registerOption:(NSString *)longOption shortcut:(char)shortOption requirement:(GBValueRequirements)requirement {

@@ -10,22 +10,22 @@
 #import "GBCli.h"
 
 void registerOptions(GBOptionsHelper *options) {
-	GBOptionDefinition definitions[] = {
-		{ 0,	nil,							@"PROJECT INFO",											GBOptionSeparator },
-		{ 'p',	GBSettingKeys.projectName,		@"Project name",											GBValueRequired },
-		{ 'v',	GBSettingKeys.projectVersion,	@"Project version",											GBValueRequired },
-		
-		{ 0,	nil,							@"PATHS",													GBOptionSeparator },
-		{ 'o',	GBSettingKeys.outputPaths,		@"Output path, repeat for multiple paths",					GBValueRequired },	
-		
-		{ 0,	nil,							@"MISCELLANEOUS",											GBOptionSeparator },
-		{ 0,	GBSettingKeys.printSettings,	@"Print settings for current run",							GBValueNone },
-		{ 'v',	GBSettingKeys.printVersion,		@"Display version and exit",								GBValueNone|GBOptionNoPrint },
-		{ '?',	GBSettingKeys.printHelp,		@"Display this help and exit",								GBValueNone|GBOptionNoPrint },
-		
-		{ 0, nil, nil, 0 }
-	};
-	[options registerOptionsFromDefinitions:definitions];
+	[options registerSeparator:@"OPTIONS:"];
+	
+	[options registerOption:0 long:GBSettingKeys.printSettings description:@"Print settings for current run" flags:GBValueNone];
+	[options registerOption:'v' long:GBSettingKeys.printVersion description:@"Display version and exit" flags:GBValueNone|GBOptionNoPrint];
+	[options registerOption:'?' long:GBSettingKeys.printHelp description:@"Diusplay this help and exit" flags:GBValueNone|GBOptionNoPrint];
+	
+	[options registerSeparator:@"COMMANDS:"];
+	
+	[options registerGroup:@"project" description:@"[PROJECT OPTIONS]:" optionsBlock:^(GBOptionsHelper *options) {
+		[options registerOption:'p' long:GBSettingKeys.projectName description:@"Project name" flags:GBValueRequired];
+		[options registerOption:'n' long:GBSettingKeys.projectVersion description:@"Project version" flags:GBValueRequired];
+	}];
+	
+	[options registerGroup:@"path" description:@"[PATH OPTIONS]:" optionsBlock:^(GBOptionsHelper *options) {
+		[options registerOption:'o' long:GBSettingKeys.outputPaths description:@"Output path, repeat for multiple paths" flags:GBValueRequired];
+	}];
 }
 
 int main(int argc, char * argv[]) {
@@ -45,21 +45,14 @@ int main(int argc, char * argv[]) {
 		options.printValuesArgumentsHeader = ^{ return @"Running with arguments:\n"; };
 		options.printValuesOptionsHeader = ^{ return @"Running with options:\n"; };
 		options.printValuesFooter = ^{ return @"\nEnd of values print...\n"; };
-		options.printHelpHeader = ^{ return @"Usage %APPNAME [OPTIONS] <arguments separated by space>\n\nCommands:\n\nproject\npath"; };
+		options.printHelpHeader = ^{ return @"Usage %APPNAME [OPTIONS] [COMMAND [COMMAND OPTIONS]] <arguments separated by space>"; };
 		options.printHelpFooter = ^{ return @"\nSwitches that don't accept value can use negative form with --no-<name> or --<name>=0 prefix."; };
 		registerOptions(options);
-		
+
 		// Initialize command line parser and register it with all options from helper. Then parse command line.
 		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
-		[parser registerOption:@"print-settings" shortcut:0 requirement:GBValueOptional];
-		[parser registerOptionGroup:@"project"];
-		[parser registerOption:@"project-name" shortcut:'p' requirement:GBValueRequired];
-		[parser registerOption:@"project-version" shortcut:'v' requirement:GBValueRequired];
-		[parser registerOptionGroup:@"path"];
-		[parser registerOption:@"help" shortcut:0 requirement:GBValueOptional];
-		[parser registerOption:@"output" shortcut:'o' requirement:GBValueOptional];
 		[parser registerSettings:settings];
-//		[parser registerOptions:options];
+		[parser registerOptions:options];
 		if (![parser parseOptionsWithArguments:argv count:argc]) {
 			gbprintln(@"Errors in command line parameters!");
 			gbprintln(@"");
