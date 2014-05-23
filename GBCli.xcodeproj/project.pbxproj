@@ -13,6 +13,7 @@
 		73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A181511FDA90031EF85 /* GBOptionsHelper.m */; };
 		73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1A1511FDA90031EF85 /* GBSettings.m */; };
 		73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */; };
+		735219B6192FA1150031EAF0 /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 735219B5192FA1150031EAF0 /* GBPrint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,8 @@
 		73484A1A1511FDA90031EF85 /* GBSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSettings.m; sourceTree = "<group>"; };
 		73484A1E1511FE9E0031EF85 /* GBSettings+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GBSettings+Application.h"; sourceTree = "<group>"; };
 		73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GBSettings+Application.m"; sourceTree = "<group>"; };
+		735219B4192FA1150031EAF0 /* GBPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBPrint.h; sourceTree = "<group>"; };
+		735219B5192FA1150031EAF0 /* GBPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBPrint.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 				73484A181511FDA90031EF85 /* GBOptionsHelper.m */,
 				73484A191511FDA90031EF85 /* GBSettings.h */,
 				73484A1A1511FDA90031EF85 /* GBSettings.m */,
+				735219B4192FA1150031EAF0 /* GBPrint.h */,
+				735219B5192FA1150031EAF0 /* GBPrint.m */,
 			);
 			name = lib;
 			path = src;
@@ -173,6 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				735219B6192FA1150031EAF0 /* GBPrint.m in Sources */,
 				73484A041511FD010031EF85 /* main.m in Sources */,
 				73484A1B1511FDA90031EF85 /* GBCommandLineParser.m in Sources */,
 				73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */,
