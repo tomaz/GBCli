@@ -114,8 +114,7 @@ static NSString * const GBSettingsArgumentsKey = @"B450A340-EC4F-40EC-B18D-B52DB
 	return [number boolValue];
 }
 - (void)setBool:(BOOL)value forKey:(NSString *)key {
-	NSNumber *number = [NSNumber numberWithBool:value];
-	[self setObject:number forKey:key];
+	[self setObject:@(value) forKey:key];
 }
 
 - (NSInteger)integerForKey:(NSString *)key {
@@ -123,8 +122,7 @@ static NSString * const GBSettingsArgumentsKey = @"B450A340-EC4F-40EC-B18D-B52DB
 	return [number integerValue];
 }
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key {
-	NSNumber *number = [NSNumber numberWithInteger:value];
-	[self setObject:number forKey:key];
+	[self setObject:@(value) forKey:key];
 }
 
 - (NSUInteger)unsignedIntegerForKey:(NSString *)key {
@@ -132,8 +130,7 @@ static NSString * const GBSettingsArgumentsKey = @"B450A340-EC4F-40EC-B18D-B52DB
 	return (NSUInteger)[number integerValue];
 }
 - (void)setUnsignedInteger:(NSUInteger)value forKey:(NSString *)key {
-	NSNumber *number = [NSNumber numberWithUnsignedInteger:value];
-	[self setObject:number forKey:key];
+	[self setObject:@(value) forKey:key];
 }
 
 - (CGFloat)floatForKey:(NSString *)key {
@@ -141,8 +138,7 @@ static NSString * const GBSettingsArgumentsKey = @"B450A340-EC4F-40EC-B18D-B52DB
 	return [number doubleValue];
 }
 - (void)setFloat:(CGFloat)value forKey:(NSString *)key {
-	NSNumber *number = [NSNumber numberWithDouble:value];
-	[self setObject:number forKey:key];
+	[self setObject:@(value) forKey:key];
 }
 
 #pragma mark - Arguments handling

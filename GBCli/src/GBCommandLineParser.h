@@ -43,6 +43,7 @@ typedef void(^GBCommandLineParseBlock)(GBParseFlags flags, NSString *argument, i
 
 #pragma mark - Options registration
 
+- (void)registerOptionGroup:(NSString *)name;
 - (void)registerOption:(NSString *)longOption shortcut:(char)shortOption requirement:(GBValueRequirements)requirement;
 - (void)registerOption:(NSString *)longOption requirement:(GBValueRequirements)requirement;
 - (void)registerSwitch:(NSString *)longOption shortcut:(char)shortOption;
@@ -79,6 +80,7 @@ enum {
 enum {
 	GBParseFlagOption,
 	GBParseFlagArgument,
+	GBParseFlagWrongGroup,
 	GBParseFlagMissingValue,
 	GBParseFlagUnknownOption,
 };

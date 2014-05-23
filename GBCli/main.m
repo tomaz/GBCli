@@ -7,8 +7,7 @@
 //
 
 #import "GBSettings+Application.h"
-#import "GBCommandLineParser.h"
-#import "GBOptionsHelper.h"
+#import "GBCli.h"
 
 void registerOptions(GBOptionsHelper *options) {
 	GBOptionDefinition definitions[] = {
@@ -46,20 +45,33 @@ int main(int argc, char * argv[]) {
 		options.printValuesArgumentsHeader = ^{ return @"Running with arguments:\n"; };
 		options.printValuesOptionsHeader = ^{ return @"Running with options:\n"; };
 		options.printValuesFooter = ^{ return @"\nEnd of values print...\n"; };
-		options.printHelpHeader = ^{ return @"Usage %APPNAME [OPTIONS] <arguments separated by space>"; };
+		options.printHelpHeader = ^{ return @"Usage %APPNAME [OPTIONS] <arguments separated by space>\n\nCommands:\n\nproject\npath"; };
 		options.printHelpFooter = ^{ return @"\nSwitches that don't accept value can use negative form with --no-<name> or --<name>=0 prefix."; };
 		registerOptions(options);
 		
 		// Initialize command line parser and register it with all options from helper. Then parse command line.
 		GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
+		[parser registerOption:@"print-settings" shortcut:0 requirement:GBValueOptional];
+		[parser registerOptionGroup:@"project"];
+		[parser registerOption:@"project-name" shortcut:'p' requirement:GBValueRequired];
+		[parser registerOption:@"project-version" shortcut:'v' requirement:GBValueRequired];
+		[parser registerOptionGroup:@"path"];
+		[parser registerOption:@"help" shortcut:0 requirement:GBValueOptional];
+		[parser registerOption:@"output" shortcut:'o' requirement:GBValueOptional];
 		[parser registerSettings:settings];
-		[parser registerOptions:options];
-		[parser parseOptionsWithArguments:argv count:argc];
+//		[parser registerOptions:options];
+		if (![parser parseOptionsWithArguments:argv count:argc]) {
+			gbprintln(@"Errors in command line parameters!");
+			gbprintln(@"");
+			[options printHelp];
+			return 1;
+		}
 		
 		// NOTE: from here on, you can forget about GBOptionsHelper or GBCommandLineParser and only deal with GBSettings...
 		
 		// Print help or version if instructed - print help if there's no cmd line argument also...
 		if (settings.printHelp || argc == 1) {
+
 			[options printHelp];
 			return 0;
 		}
