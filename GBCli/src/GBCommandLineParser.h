@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Tomaz Kragelj. All rights reserved.
 //
 
+@class GBSettings;
+
 typedef NSUInteger GBValueRequirements;
 typedef NSUInteger GBParseFlags;
 typedef void(^GBCommandLineParseBlock)(GBParseFlags flags, NSString *argument, id value, BOOL *stop);
