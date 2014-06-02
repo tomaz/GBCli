@@ -468,6 +468,76 @@ As blocks are only invoked if needed, you can safely add computationally intensi
 
 Note usage of "placeholder strings" which will be conveniently replaced by their appropriate values: `%APPNAME`, `%APPVERSION`, `%APPBUILD`. Check source code for *GBOptionsHelper* class for other hooks.
 
+
+Miscellaneous
+-------------
+
+### Option groups
+
+GBCli 1.1 and later allows grouping options into "option groups" (or commands). This allows you to separate options into groups. This results in more readable command line (and plist files). Here's how you could use *GBOptions* to setup groups:
+
+```
+GBOptionsHelper *options = [[GBOptionsHelper alloc] init]
+[options registerSeparator:@"OPTIONS:"];
+[options registerOption:'a' long:@"optiona" description:@"The great option a" flags:GBValueRequired];
+[options registerOption:'b' long:@"optionb" description:@"The great option b" flags:GBValueOptional];
+[options registerSeparator:@"COMMANDS:"];
+[options registerGroup:@"group1" description:@"[GROUP 1 OPTIONS]:" optionsBlock:^(GBOptionsHelper *options) {
+	[options registerOption:0 long:@"option11" description:@"Group 1 option 1" flags:GBValueNone];
+	[options registerOption:0 long:@"option12" description:@"Group 1 option 2" flags:GBValueNone];
+}];
+[options registerGroup:@"group2" description:@"[GROUP 2 OPTIONS]:" optionsBlock:^(GBOptionsHelper *options) {
+	[options registerOption:0 long:@"option21" description:@"Group 2 option 1" flags:GBValueNone];
+	[options registerOption:0 long:@"option22" description:@"Group 2 option 2" flags:GBValueNone];
+}];
+```
+
+Then you'd register options to *GBCommandLineParser* as usual. Note that you can also use options outside groups, just register them outside of groups as shown above. With above code, you could use command line like this:
+
+```
+mytool --optiona group1 --option11 --option12 group2 --option21
+```
+
+Note that groups are also accepted in plist files - simply setup a value as a dictionary and prepare keys and values in there as you would for root keys:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>group1</key>
+	<dict>
+		<key>option11</key>
+		<true/>
+		<key>option12</key>
+		<true/>
+	</dict>
+	<key>group2</key>
+	<dict>
+		<key>option21</key>
+		<true/>
+	</dict>
+	<key>optiona</key>
+	<true/>
+</dict>
+</plist>
+```
+
+Note that option groups have some limitations at the moment. Specifically: on *GBSettings* level, there's no support for groups, all settings are stored on the same level. This brings couple of potential issues:
+
+- You can't use the same option name inside multiple groups.
+- Plist files don't really validate names of groups.
+
+
+### Printing and logging
+
+GBCli 1.1 and later adds support for simple `printf` like functions that accept `NSString` instead of plain C string. These functions are: 
+
+- `gbprint`: prints the given string to stdout. Example `gbprint(@"Hello %@", @"World");`.
+- `gbprintln`: same as `gbprint` but adds newline at the end of string.
+- `gbfprint`: same as `gbprint` except it allows you to specify the file. Example `gbfprint(stderr, @"Hello %@", @"World);`
+- `gbfprintln`: same as `gbfprint` but adds newline at the end of string.
+
 - - -
 
 Allright, this tutorial is over, check example application included with Xcode project to see it in a more real-life situation.
