@@ -25,11 +25,11 @@ static NSString * const GBSettingsArgumentsKey = @"B450A340-EC4F-40EC-B18D-B52DB
 
 #pragma mark - Initialization & disposal
 
-+ (id)settingsWithName:(NSString *)name parent:(GBSettings *)parent {
++ (instancetype)settingsWithName:(NSString *)name parent:(GBSettings *)parent {
 	return [[self alloc] initWithName:name parent:parent];
 }
 
-- (id)initWithName:(NSString *)name parent:(GBSettings *)parent {
+- (instancetype)initWithName:(NSString *)name parent:(GBSettings *)parent {
 	self = [super init];
 	if (self) {
 		self.name = name;

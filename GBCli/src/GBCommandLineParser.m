@@ -42,7 +42,7 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 
 #pragma mark - Initialization & disposal
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self) {
 		self.registeredOptionsByLongNames = [NSMutableDictionary dictionary];

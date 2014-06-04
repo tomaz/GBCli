@@ -12,7 +12,7 @@
 
 #pragma mark - Initialization & disposal
 
-+ (id)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent {
++ (instancetype)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent {
 	id result = [self settingsWithName:name parent:parent];
 	if (result) {
 		[result registerArrayForKey:GBSettingKeys.inputPaths];

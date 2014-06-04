@@ -16,7 +16,7 @@
 
 #pragma mark - Initialization & disposal
 
-+ (id)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent;
++ (instancetype)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent;
 
 #pragma mark - Project information
 

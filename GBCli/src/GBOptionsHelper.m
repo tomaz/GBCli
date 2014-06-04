@@ -36,7 +36,7 @@ static NSUInteger GBOptionInternalEndGroup = 1 << 10;
 
 #pragma mark - Initialization & disposal
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self) {
 		self.registeredOptions = [NSMutableArray array];
