@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Tomaz Kragelj. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 @class GBSettings;
 
 typedef NSUInteger GBValueRequirements;
