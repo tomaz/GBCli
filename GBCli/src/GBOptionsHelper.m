@@ -21,6 +21,7 @@ static NSUInteger GBOptionInternalEndGroup = 1 << 10;
 @end
 
 @implementation OptionDefinition
+@synthesize description = _description;
 @end
 
 #pragma mark - 
