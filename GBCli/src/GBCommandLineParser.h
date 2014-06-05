@@ -75,14 +75,14 @@ typedef void(^GBCommandLineParseBlock)(GBParseFlags flags, NSString *argument, i
 #pragma mark -
 
 /** Various command line argument value requirements. */
-enum {
+typedef NS_ENUM(NSUInteger, GBValueFlags) {
 	GBValueRequired, ///< Command line argument requires a value.
 	GBValueOptional, ///< Command line argument can optionally have a value, but is not required.
 	GBValueNone ///< Command line argument is on/off switch.
 };
 
 /** Various parsing flags. */
-enum {
+typedef NS_ENUM(NSUInteger, GBParseFlag) {
 	GBParseFlagOption,
 	GBParseFlagArgument,
 	GBParseFlagWrongGroup,
