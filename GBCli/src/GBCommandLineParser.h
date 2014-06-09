@@ -68,7 +68,8 @@ typedef void(^GBCommandLineParseBlock)(GBParseFlags flags, NSString *argument, i
 #pragma mark - Getting parsed results
 
 - (id)valueForOption:(NSString *)longOption;
-- (NSArray *)arguments;
+
+@property (nonatomic, readonly) NSArray *arguments;
 
 @end
 

@@ -12,19 +12,19 @@
 void registerOptions(GBOptionsHelper *options) {
 	[options registerSeparator:@"OPTIONS:"];
 	
-	[options registerOption:0 long:GBSettingKeys.printSettings description:@"Print settings for current run" flags:GBValueNone];
+	[options registerOption:0 long:GBSettingKeys.printSettings description:@"Print settings for current run" flags:GBOptionNoValue];
 	[options registerOption:'v' long:GBSettingKeys.printVersion description:@"Display version and exit" flags:GBValueNone|GBOptionNoPrint];
 	[options registerOption:'?' long:GBSettingKeys.printHelp description:@"Diusplay this help and exit" flags:GBValueNone|GBOptionNoPrint];
 	
 	[options registerSeparator:@"COMMANDS:"];
 	
 	[options registerGroup:@"project" description:@"[PROJECT OPTIONS]:" optionsBlock:^(GBOptionsHelper *options) {
-		[options registerOption:'p' long:GBSettingKeys.projectName description:@"Project name" flags:GBValueRequired];
-		[options registerOption:'n' long:GBSettingKeys.projectVersion description:@"Project version" flags:GBValueRequired];
+		[options registerOption:'p' long:GBSettingKeys.projectName description:@"Project name" flags:GBOptionRequiredValue];
+		[options registerOption:'n' long:GBSettingKeys.projectVersion description:@"Project version" flags:GBOptionRequiredValue];
 	}];
 	
 	[options registerGroup:@"path" description:@"[PATH OPTIONS]:" optionsBlock:^(GBOptionsHelper *options) {
-		[options registerOption:'o' long:GBSettingKeys.outputPaths description:@"Output path, repeat for multiple paths" flags:GBValueRequired];
+		[options registerOption:'o' long:GBSettingKeys.outputPaths description:@"Output path, repeat for multiple paths" flags:GBOptionRequiredValue];
 	}];
 }
 
