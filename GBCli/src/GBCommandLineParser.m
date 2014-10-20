@@ -199,6 +199,7 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 		if (data == (id)GBCommandLineNotAnOptionKey) break; // no more options, only arguments left...
 		if (data == (id)GBCommandLineOptionGroupKey) {
 			// If this is group name, continue with next option...
+			handler(GBParseFlagOption, input, @YES, &stop);
 			index++;
 			continue;
 		}
