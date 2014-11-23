@@ -69,7 +69,7 @@ int main(int argc, char * argv[]) {
 			return 0;
 		}
 		if (settings.printVersion) {
-			[options printHelp];
+			[options printVersion];
 			return 0;
 		}		
 		
