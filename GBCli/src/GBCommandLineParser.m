@@ -141,7 +141,7 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 				gbfprintln(stderr, @"Unknown command line option %@, try --help!", argument);
 				break;
 			case GBParseFlagMissingValue:
-				gbfprintln(stderr, @"Missing value for command line option %s, try --help!", argument);
+				gbfprintln(stderr, @"Missing value for command line option %@, try --help!", argument);
 				break;
 			case GBParseFlagWrongGroup:
 				gbfprintln(stderr, @"Invalid option %@ for group %@!", argument, self.currentOptionsGroupName);
