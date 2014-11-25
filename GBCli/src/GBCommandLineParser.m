@@ -15,6 +15,7 @@ static NSString * const GBCommandLineShortOptionKey = @"short";
 static NSString * const GBCommandLineRequirementKey = @"requirement";
 static NSString * const GBCommandLineOptionGroupKey = @"group"; // this is returned while parsing to indicate an option group was detected.
 static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this is returned while parsing to indicate an argument was detected.
+static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // this is returned while parsing to indicate an "end-of-options" option is detected.
 
 #pragma mark -
 
@@ -196,6 +197,11 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 		id value = nil;
 		NSString *input = [arguments objectAtIndex:index];
 		NSDictionary *data = [self optionDataForOption:input value:&value];
+		if (data == (id)GBCommandLineEndOfOptionsKey) {
+			// End of options detected. Skip this one and end option parsing.
+			index++;
+			break;
+		}
 		if (data == (id)GBCommandLineOptionGroupKey) {
 			// If this is group name, continue with next option...
 			handler(GBParseFlagOption, input, @YES, &stop);
@@ -310,9 +316,11 @@ static NSString * const GBCommandLineNotAnOptionKey = @"not-an-option"; // this 
 	
 	// Extract the option name.
 	if ([shortOrLongName hasPrefix:@"--"]) {
+		if (shortOrLongName.length == 2) return (id)GBCommandLineEndOfOptionsKey;
 		name = [shortOrLongName substringFromIndex:2];
 		options = self.registeredOptionsByLongNames;
 	} else if ([shortOrLongName hasPrefix:@"-"]) {
+		if (shortOrLongName.length == 1) return (id)GBCommandLineEndOfOptionsKey;
 		name = [shortOrLongName substringFromIndex:1];
 		options = self.registeredOptionsByShortNames;
 	} else if ([self isOptionGroupName:shortOrLongName]) {
