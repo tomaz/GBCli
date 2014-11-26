@@ -226,6 +226,7 @@ static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // thi
 			// If this is a non-option argument, notify observer.
 			value = input;
 			flags = GBParseFlagArgument;
+			[self.parsedArguments addObject:input];
 		} else {
 			name = data[GBCommandLineLongOptionKey];
 
