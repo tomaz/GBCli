@@ -205,6 +205,14 @@ static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // thi
 		if (data == (id)GBCommandLineOptionGroupKey) {
 			// If this is group name, continue with next option...
 			handler(GBParseFlagOption, input, @YES, &stop);
+			if (stop) break;
+			index++;
+			continue;
+		} else if (data == (id)GBCommandLineNotAnOptionKey) {
+			// If this is a non-option argument, notify observer.
+			[self.parsedArguments addObject:input];
+			handler(GBParseFlagArgument, nil, input, &stop);
+			if (stop) break;
 			index++;
 			continue;
 		}
@@ -223,11 +231,6 @@ static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // thi
 			name = input;
 			flags = GBParseFlagWrongGroup;
 			result = NO;
-		} else if (data == (id)GBCommandLineNotAnOptionKey) {
-			// If this is a non-option argument, notify observer.
-			value = input;
-			flags = GBParseFlagArgument;
-			[self.parsedArguments addObject:input];
 		} else {
 			name = data[GBCommandLineLongOptionKey];
 
