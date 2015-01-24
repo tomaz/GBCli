@@ -13,7 +13,7 @@ Integrating to your project
 
 The simplest way of integrating GBCli is through cocoapods. Just add this line to your Podfile:
 
-```
+```ruby
 pod "GBCli"
 ```
 
@@ -31,7 +31,7 @@ Besides callback API, parser also stores all recognized options and arguments in
 
 An example:
 
-```
+```objc
 int main(int argc, char **argv) {
 	// Create parser and register all options.
 	GBCommandLineParser *parser = [[GBCommandLineParser alloc] init];
@@ -82,7 +82,7 @@ Application wide settings handling
 
 In most cases, you'd like to store values from command line into a simple to use interface that you can then pass on to various components of your tool. GBCli provides *GBSettings* class for that purpose. In its basic form, it provides *NSUserDefaults* like interface to the settings through methods like `objectForKey:`, `setObject:forKey:`, `boolForKey:`, `setBool:forKey:` etc. Example:
 
-```
+```objc
 int main(int argc, char **argv) {
 	// Create settings.
 	GBSettings *settings = [GBSettings settingsWithName:@"CmdLine" parent:nil];
@@ -127,7 +127,7 @@ Note how we provided some "factory defaults" when creating *GBSettings*. This is
 
 While above example may be all you need, *GBSettings* class allows you to easily manage a hierarchy of settings. For example factory defaults and command line, or additional layers in between. For example appledoc can also read settings from global or project files. And options should take precedence, so for example value provided in command line overrides factory defaults. *GBSettings* make this very simple - here's how you could extent previous example:
 
-```
+```objc
 int main(int argc, char **argv) {
 	// Create settings stack.
 	GBSettings *factoryDefaults = [GBSettings settingsWithName:@"Factory" parent:nil];
@@ -155,7 +155,7 @@ But before we get there:
 
 I couldn't agree more with you - this whole `parseOptionsWithArguments:count:block:` dance feels like an overhead for something that should be built in. And in fact it is, provided that you use *GBSettings*. In such case, you can simply register the settings to *GBCommandLineParser* and use one of the simplified parsing methods like this:
 
-```
+```objc
 int main(int argc, char **argv) {
 	// Create settings stack.
 	GBSettings *factoryDefaults = [GBSettings settingsWithName:@"Factory" parent:nil];
@@ -192,7 +192,7 @@ Sometimes, you'd like to allow the user to repeat an option several times. In su
 Fear not: *GBSettings* include "treat key as array" feature that allows you implement this through key repetition. This would allow you to use something like `--output ~/Dir1 --output ~/Dir2` (or with alternative syntax `--output=~/Dir1 --output=~/Dir2`). And the best part is - it's all handled automatically for you (well almost automatically) - you do need to register the option as an array. Assuming you're using two layers - factory defaults and command line settings, it would look like this:
 
 
-```
+```objc
 [factorySettings registerArrayForKey:@"output"]
 [settings registerArrayForKey:@"output"]
 ```
@@ -210,7 +210,7 @@ While using *GBSettings* out of the box via KVC interface may be sufficient for 
 
 One way would be overriding *GBSettings* class, but Objective C provides (IMHO) better solution for that - categories. Here's how it may look one for above example:
 
-```
+```objc
 @interface GBSettings (MyAppSettings)
 @property (nonatomic, assign) NSInteger optiona;
 @property (nonatomic, assign) NSInteger optionb;
@@ -220,7 +220,7 @@ One way would be overriding *GBSettings* class, but Objective C provides (IMHO) 
 
 Now we need to somehow "map" properties with specific keys. Let's see how it would look like:
 
-```
+```objc
 @implementation GBSettings (MyAppSettings)
 
 - (NSInteger)optiona {
@@ -238,7 +238,7 @@ Now we need to somehow "map" properties with specific keys. Let's see how it wou
 
 Straightforward, but kind of verbose and tedious, especially with more complex tools. But there's another way - at the end of *GBSettings.h* file, there are a bunch of convenience macros that allow you synthesize your properties via a single line like this:
 
-```
+```objc
 @implementation GBSettings (MyAppSettings)
 
 GB_SYNTHESIZE_INT(optiona, setOptiona, @"optiona")
@@ -254,7 +254,7 @@ There's a macro for each supported value type - `GB_SYNTHESIZE_BOOL` for `BOOL`,
 
 Another thing you can easily stuff to your category is registration of array keys. I tend to create a new initializer method for this to keep the rest of the code as simple as possible:
 
-```
+```objc
 @implementation GBSettings (MyAppSettings)
 
 + (id)mySettingsWithName:(NSString *)name parent:(GBSettings *)parent {
@@ -270,7 +270,7 @@ Another thing you can easily stuff to your category is registration of array key
 
 Then you can initialize your settings stack using the custom initializer instead of `settingsWithName:parent:` like this:
 
-```
+```objc
 GBSettings *factoryDefaults = [GBSettings mySettingsWithName:@"Factory" parent:nil];
 GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:factoryDefaults];
 ```
@@ -282,7 +282,7 @@ Of course, if you'd chose subclassing over category, you could simply override d
 
 Your category or subclass would also be a great place for embedding other behavior such as applying factory defaults:
 
-```
+```objc
 @implementation GBSettings (MyAppSettings)
 
 - (void)applyFactoryDefaults {
@@ -295,7 +295,7 @@ Your category or subclass would also be a great place for embedding other behavi
 
 Then you can setup your settings stack like this:
 
-```
+```objc
 GBSettings *factoryDefaults = [GBSettings mySettingsWithName:@"Factory" parent:nil];
 GBSettings *settings = [GBSettings mySettingsWithName:@"CmdLine" parent:factoryDefaults];
 [factoryDefaults applyFactoryDefaults];
@@ -316,7 +316,7 @@ I chose to implement some of the most tedious ones with *GBOptionsHelper* class.
 
 It's not that much different from before:
 
-```
+```objc
 int main(int argc, char **argv) {
 	// Create settings stack.
 	GBSettings *factoryDefaults = [GBSettings settingsWithName:@"Factory" parent:nil];
@@ -352,7 +352,7 @@ You probably also noticed registration took additional information such as descr
 
 It's nice to include some form of help with command line tool. For example if user supplies `--help`, `-h`, `-?` on command line or simply types command without any arguments. It's expected command line behavior after all. If using *GBOptionsHelper*, all that's required from your part is register help option and ask the class to print help if needed. Let's first see how you can do registration part first:
 
-```
+```objc
 int main(int argc, char **argv) {
 	initialize settings stack as before
 	...
@@ -395,7 +395,7 @@ MISCELLANEOUS
 Another nice feature you get for free with *GBOptionsHelper* is ability to print out the values that are used by current run. It can be a nice debugging tool if nothing else. Assuming there's command line switch to enable or disable this, here's how you could do it:
 
 
-```
+```objc
 int main(int argc, char **argv) {
 	initialize settings stack as before
 	GBSettings *factoryDefaults = ...
@@ -451,7 +451,7 @@ By default all options are included, but you add flags to registration methods t
 
 You can customize default output for `printHelp` and `printValues` methods through several hooks which are called when appropriate. You could easily add your headers and footers this way without subclassing. One of perhaps most obvious examples would be providing application name and version information. While getting the application name requires no effort from your side - the tool will pick it up from the command line, you have to provide version and build information. Here's how you could do that:
 
-```
+```objc
 GBOptionsHelper *options = [[GBOptionsHelper alloc] init];
 options.applicationName = ^{ return @"mytool"; }; // optional, this is picked up automatically if not given
 options.applicationVersion = ^{ return @"1.0"; };
@@ -460,7 +460,7 @@ options.applicationBuild = ^{ return @"100"; };
 
 And here's how you add your own custom header to help output:
 
-```
+```objc
 options.printHelpHeader = ^{ return @"%APPNAME: version %APPVERSION (build %APPBUILD)\n"; };
 ```
 
@@ -476,7 +476,7 @@ Miscellaneous
 
 GBCli 1.1 and later allows grouping options into "option groups" (or commands). This allows you to separate options into groups. This results in more readable command line (and plist files). Here's how you could use *GBOptions* to setup groups:
 
-```
+```objc
 GBOptionsHelper *options = [[GBOptionsHelper alloc] init]
 [options registerSeparator:@"OPTIONS:"];
 [options registerOption:'a' long:@"optiona" description:@"The great option a" flags:GBValueRequired];
@@ -500,7 +500,7 @@ mytool --optiona group1 --option11 --option12 group2 --option21
 
 Note that groups are also accepted in plist files - simply setup a value as a dictionary and prepare keys and values in there as you would for root keys:
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
