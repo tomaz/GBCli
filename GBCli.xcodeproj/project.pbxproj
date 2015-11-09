@@ -14,6 +14,7 @@
 		73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1A1511FDA90031EF85 /* GBSettings.m */; };
 		73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */; };
 		735219B6192FA1150031EAF0 /* GBPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 735219B5192FA1150031EAF0 /* GBPrint.m */; };
+		7389A0911BF1466600CD4711 /* SwiftyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7389A0901BF1466600CD4711 /* SwiftyOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,8 @@
 		73484A1F1511FE9E0031EF85 /* GBSettings+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GBSettings+Application.m"; sourceTree = "<group>"; };
 		735219B4192FA1150031EAF0 /* GBPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBPrint.h; sourceTree = "<group>"; };
 		735219B5192FA1150031EAF0 /* GBPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBPrint.m; sourceTree = "<group>"; };
+		7389A08F1BF1466500CD4711 /* GBCli-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBCli-Bridging-Header.h"; sourceTree = "<group>"; };
+		7389A0901BF1466600CD4711 /* SwiftyOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,7 @@
 		73484A141511FD8B0031EF85 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7389A0901BF1466600CD4711 /* SwiftyOptions.swift */,
 				7331C3C9192F0BA3003B8363 /* GBCli.h */,
 				73484A151511FDA90031EF85 /* GBCommandLineParser.h */,
 				73484A161511FDA90031EF85 /* GBCommandLineParser.m */,
@@ -123,6 +127,7 @@
 				73484A1A1511FDA90031EF85 /* GBSettings.m */,
 				735219B4192FA1150031EAF0 /* GBPrint.h */,
 				735219B5192FA1150031EAF0 /* GBPrint.m */,
+				7389A08F1BF1466500CD4711 /* GBCli-Bridging-Header.h */,
 			);
 			name = lib;
 			path = src;
@@ -154,7 +159,8 @@
 		734849F31511FD010031EF85 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
 			};
 			buildConfigurationList = 734849F61511FD010031EF85 /* Build configuration list for PBXProject "GBCli" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -184,6 +190,7 @@
 				73484A1C1511FDA90031EF85 /* GBOptionsHelper.m in Sources */,
 				73484A1D1511FDA90031EF85 /* GBSettings.m in Sources */,
 				73484A201511FE9E0031EF85 /* GBSettings+Application.m in Sources */,
+				7389A0911BF1466600CD4711 /* SwiftyOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,9 +211,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -220,7 +229,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -243,6 +252,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -250,7 +260,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -258,18 +268,25 @@
 		73484A0C1511FD010031EF85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBCli/GBCli-Prefix.pch";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GBCli/src/GBCli-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		73484A0D1511FD010031EF85 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBCli/GBCli-Prefix.pch";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GBCli/src/GBCli-Bridging-Header.h";
 			};
 			name = Release;
 		};
