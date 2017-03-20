@@ -225,8 +225,7 @@ static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // thi
 			name = input;
 			flags = GBParseFlagUnknownOption;
 			result = NO;
-		} else if (self.currentOptionsGroupOptions
-				   && ![self.currentOptionsGroupOptions containsObject:data[GBCommandLineLongOptionKey]]) {
+		} else if (self.currentOptionsGroupOptions && ![self.currentOptionsGroupOptions containsObject:data[GBCommandLineLongOptionKey]]) {
 			// If name of the option is not registered for the current group, notify observer.
 			name = input;
 			flags = GBParseFlagWrongGroup;
