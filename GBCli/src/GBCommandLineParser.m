@@ -243,13 +243,19 @@ static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // thi
 							value = [arguments objectAtIndex:index + 1];
 							if ([self isShortOrLongOptionName:value]) {
 								flags = GBParseFlagMissingValue;
+								result = NO;
+								stop = YES;
 							} else if ([self isOptionGroupName:value]) {
 								flags = GBParseFlagMissingValue;
+								result = NO;
+								stop = YES;
 							} else {
 								index++;
 							}
 						} else {
 							flags = GBParseFlagMissingValue;
+							result = NO;
+							stop = YES;
 						}
 					}
 					break;
@@ -301,7 +307,7 @@ static NSString * const GBCommandLineEndOfOptionsKey = @"end-of-options"; // thi
 	}
 	
 	// Prepare arguments (arguments are command line options after options).
-	while (index < arguments.count) {
+	while (!stop && index < arguments.count) {
 		NSString *input = [arguments objectAtIndex:index];
 		[self.parsedArguments addObject:input];
 		handler(GBParseFlagArgument, nil, input, &stop);
