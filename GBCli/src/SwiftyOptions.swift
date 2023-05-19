@@ -12,7 +12,7 @@ This class allows to use convenience functions for options registrations. To use
 open class SwiftyOptions {
 	
 	/// The one and only `OptionsRegistrator` instance
-	open static let sharedInstance = SwiftyOptions()
+	public static let sharedInstance = SwiftyOptions()
 	
 	/** Registers options using helper methods.
 	
